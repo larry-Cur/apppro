@@ -3,12 +3,14 @@
     <!-- 头部组件 -->
     <v-header></v-header>
     <!-- 导航组件 -->
-    <van-tabs v-model="active" swipeable>
-      <van-tab v-for="(item,index) in tablist" :title="item.name" :key="index" :to="item.hash"></van-tab>
-    </van-tabs>
+    <div class="nav">
+      <van-tabs v-model="active" swipeable>
+        <van-tab v-for="(item,index) in tablist" :title="item.name" :key="index" :to="item.hash"></van-tab>
+      </van-tabs>
+    </div>
     <!-- 内容 -->
     <div class="main">
-      <router-view />
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -19,12 +21,16 @@ export default {
     return {
       active: 0,
       tablist: [
-        { name: "商品", hash: "/shoplist" },
+        { name: "商品", hash: "/" },
         { name: "评价", hash: "/shopratings" },
         { name: "商家", hash: "/shopdesc" },
       ],
     };
   },
+  methods: {
+    render() {},
+  },
+  created() {},
   components: {
     "v-header": header,
   },
@@ -37,9 +43,11 @@ export default {
   display: flex;
   flex-direction: column;
 }
+.nav{
+  border-bottom: 1px solid #ddd;
+}
 .main {
   flex: 1;
   overflow-y: scroll;
 }
-
 </style>
