@@ -19,6 +19,7 @@
           :key="index+index1"
           style="background:#fff"
           tag="热销"
+          @click="clickgoods(data)"
         >
           <template #thumb>
             <van-image width="86" height="86" :src="data.imgUrl" />
@@ -70,6 +71,17 @@
         </van-card>
       </div>
     </div>
+    <!-- 购物车 -->
+    <van-popup v-model="cartshow" position="bottom" :style="{ height: '20%' }" />
+    <div class="shopcart">
+      <div class="cell_div">
+        <p>联系商家</p>
+      </div>
+      <div class="prciecart_div" @click="clickcart()"></div>
+      <div class="set_div">
+        <p>结算</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -81,15 +93,20 @@ export default {
     return {
       activeKey: 0,
       goodsList: [],
-
       num: 1,
+      cartshow: false,
     };
   },
   methods: {
     changBtn(index, index1) {
       this.goodsList[index].foods[index1].btnShow = false;
     },
-
+    clickgoods(data) {
+      console.log(data);
+    },
+    clickcart() {
+      this.cartshow = true;
+    },
     //渲染
     render() {
       goodlist().then((res) => {
@@ -102,7 +119,6 @@ export default {
         this.goodsList = arr;
         console.log(this.goodsList);
       });
-      
     },
   },
   created() {
@@ -126,6 +142,7 @@ export default {
 .shopbox {
   height: 100%;
   overflow-y: scroll;
+  padding-bottom: 80px;
 }
 .shop_title {
   font-weight: 200;
@@ -134,5 +151,30 @@ export default {
   text-indent: 1rem;
   background: #f4f4f4;
   border-left: 3px solid #ddd;
+}
+.shopcart {
+  width: 90%;
+  height: 48px;
+  position: fixed;
+  margin: auto;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  display: flex;
+  .cell_div {
+    width: 60px;
+    background: #222;
+    border-radius: 100% 0 0 100%;
+  }
+  .prciecart_div {
+    margin-left: 5px;
+    flex: 1;
+    background: #222;
+  }
+  .set_div {
+    width: 60px;
+    background: red;
+    border-radius: 0 100% 100% 0;
+  }
 }
 </style>

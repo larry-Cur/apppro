@@ -36,6 +36,9 @@ body,
 .c777 {
   color: #777;
 }
+.c000 {
+  color: #000;
+}
 .ft12 {
   font-size: 12px;
 }
@@ -53,6 +56,9 @@ body,
 }
 .ml10 {
   margin-left: 10px;
+}
+.mt10 {
+  margin-top: 10px;
 }
 .mt20 {
   margin-top: 20px;
