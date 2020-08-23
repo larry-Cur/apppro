@@ -78,8 +78,13 @@ export default {
     // },
   },
   mounted() {
-    let scorll = new BScroll(document.querySelector(".shopdesc"));
-    scorll;
+    // let scorll = new BScroll(document.querySelector(".shopdesc"));
+    // scorll;
+    new BScroll(".shopdesc", {
+      click: true,
+      probeType: 3,
+    });
+    // scorll;
   },
 };
 </script>
@@ -87,6 +92,8 @@ export default {
 <style lang="less" scoped>
 .shopdesc {
   background: #f5f5f5;
+  height: 100%;
+  overflow: hidden;
 }
 .shop_header {
   height: 80px;

@@ -31,7 +31,7 @@
               <van-image width="86" height="86" :src="data.imgUrl" />
             </template>
             <template #title>
-              <h5>{{data.name}}</h5>
+              <h5 class="ft16 shop_h5">{{data.name}}</h5>
             </template>
             <template #tags>
               <van-tag plain type="danger">特惠</van-tag>
@@ -92,7 +92,7 @@
           </span>
         </p>
         <div class="shop_item">
-          <span class="iteml ft18">{{}}11111111</span>
+          <span class="iteml">{{}}11111111</span>
           <p>
             <span class="ft18">￥{{}}123</span>
             <van-stepper
@@ -234,7 +234,7 @@ export default {
   height: 100%;
   display: flex;
   .shopnav {
-    width: 90px;
+    width: 80px;
   }
   .shopbox {
     flex: 1;
@@ -246,10 +246,17 @@ export default {
   overflow: hidden;
   padding-bottom: 80px;
 }
+.shop_h5 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 .shop_title {
   font-weight: 200;
   line-height: 30px;
-  font-size: 16px;
+  font-size: 18px;
   text-indent: 1rem;
   background: #f4f4f4;
   border-left: 3px solid #ddd;

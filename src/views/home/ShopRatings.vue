@@ -2,38 +2,38 @@
   <div class="shopratings">
     <div>
       <div class="ratheader_div bgfff">
-      <div class="left_div">
-        <p class="score_num">{{shopscore}}</p>
-        <p class="score_title">综合评分</p>
-        <p class="score_desc">高于周边商家96%</p>
+        <div class="left_div">
+          <p class="score_num">{{shopscore}}</p>
+          <p class="score_title">综合评分</p>
+          <p class="score_desc">高于周边商家96%</p>
+        </div>
+        <div class="right_div">
+          <p>
+            <span>服务质量</span>
+            <van-rate v-model="shopscore" readonly size="18px" />
+            <span class="ml10">{{shopscore}}</span>
+          </p>
+          <p>
+            <span>菜品质量</span>
+            <van-rate v-model="shopscore" readonly size="18px" />
+            <span class="ml10">{{shopscore}}</span>
+          </p>
+          <p>
+            <span>送达时间</span>
+            <span style="margin-left:8px ;color:#777">{{}}</span>
+          </p>
+        </div>
       </div>
-      <div class="right_div">
-        <p>
-          <span>服务质量</span>
-          <van-rate v-model="shopscore" readonly size="18px" />
-          <span class="ml10">{{shopscore}}</span>
-        </p>
-        <p>
-          <span>菜品质量</span>
-          <van-rate v-model="shopscore" readonly size="18px" />
-          <span class="ml10">{{shopscore}}</span>
-        </p>
-        <p>
-          <span>送达时间</span>
-          <span style="margin-left:8px ;color:#777">{{}}</span>
-        </p>
+      <!-- tab -->
+      <div class="tab_div mt20">
+        <van-tabs type="card">
+          <van-tab title="全部"></van-tab>
+          <van-tab title="满意"></van-tab>
+          <van-tab title="不满意"></van-tab>
+        </van-tabs>
       </div>
-    </div>
-    <!-- tab -->
-    <div class="tab_div mt20">
-      <van-tabs type="card">
-        <van-tab title="全部"></van-tab>
-        <van-tab title="满意"></van-tab>
-        <van-tab title="不满意"></van-tab>
-      </van-tabs>
-    </div>
-    <!-- 评价 -->
-    <div class="ratings_div bgfff">
+      <!-- 评价 -->
+      <div class="ratings_div bgfff">
         <div class="item_div" v-for="(item,index) in rats" :key="index">
           <div class="img_div">
             <van-image round width="3rem" height="3rem" :src="item.avatar" />
@@ -64,14 +64,13 @@
             </p>
           </div>
         </div>
-    </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { shoprats } from "@/api/apis";
-
 import BScroll from "better-scroll";
 
 export default {
@@ -93,7 +92,13 @@ export default {
     this.render();
   },
   mounted() {
-    let scorll = new BScroll(document.querySelector(".shopratings"));
+    // let scorll = new BScroll(document.querySelector(".shopratings"));
+    // scorll;
+    // this.ratingsScroll = 
+    let scorll = new BScroll(".shopratings", {
+      click: true,
+      probeType: 3,
+    });
     scorll;
   },
 };
