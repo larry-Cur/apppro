@@ -1,6 +1,6 @@
 <template>
   <div class="header-box" :style="{background: 'url( '+ shop.avatar +') no-repeat'}">
-    <div class="mask">
+    <div class="mask" @click="showmask">
       <div class="innerbox">
         <div class="img_div">
           <van-image width="100%" height="100%" :src="shop.avatar" />
@@ -20,6 +20,7 @@
               5个
               <van-icon name="arrow" />
             </p>
+            <p></p>
           </div>
         </div>
       </div>
@@ -32,6 +33,24 @@
           :text="shop.bulletin"
         />
       </div>
+    </div>
+
+    <div v-show="showdesc" class="desc_mask" @click="closemask">
+      <h3 class="tcenter">乡村基</h3>
+      <p class="tcenter">
+        <van-rate v-model="shopscore" readonly size="30px" />
+      </p>
+      <p class="fbold mtb15">
+        <van-divider :style="{ color: '#fff', borderColor: '#fff' }">优惠信息</van-divider>
+      </p>
+      <p class="m_tag_p">
+        <van-tag size="large" color="#f2826a">减</van-tag>
+        <span class="ml10 ft18">{{}}1</span>
+      </p>
+      <p class="fbold mtb15">
+        <van-divider :style="{ color: '#fff', borderColor: '#fff' }">商家公告</van-divider>
+      </p>
+      <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
     </div>
   </div>
 </template>
@@ -47,9 +66,17 @@ export default {
   data() {
     return {
       shop: {},
+      showdesc: false,
+      shopscore: 4,
     };
   },
   methods: {
+    showmask() {
+      this.showdesc = true;
+    },
+    closemask(){
+      this.showdesc = false;
+    },
     render() {
       shopseller().then((res) => {
         this.shop = res.data.data;
@@ -108,6 +135,28 @@ export default {
       background: rgba(55, 55, 55, 0.7);
       white-space: nowrap;
     }
+  }
+  .desc_mask {
+    position: fixed;
+    top: 0;
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    .van-divider {
+      font-size: 20px !important;
+    }
+    h3 {
+      font-size: 26px;
+      line-height: 80px;
+    }
+    .m_tag_p{
+      line-height: 30px;
+    }
+   
   }
 }
 </style>

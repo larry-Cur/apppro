@@ -1,6 +1,7 @@
 <template>
   <div class="shopratings">
-    <div class="ratheader_div bgfff">
+    <div>
+      <div class="ratheader_div bgfff">
       <div class="left_div">
         <p class="score_num">{{shopscore}}</p>
         <p class="score_title">综合评分</p>
@@ -33,42 +34,45 @@
     </div>
     <!-- 评价 -->
     <div class="ratings_div bgfff">
-      <div class="item_div" v-for="(item,index) in rats" :key="index">
-        <div class="img_div">
-          <van-image round width="3rem" height="3rem" :src="item.avatar" />
+        <div class="item_div" v-for="(item,index) in rats" :key="index">
+          <div class="img_div">
+            <van-image round width="3rem" height="3rem" :src="item.avatar" />
+          </div>
+          <div class="desc_div">
+            <p class="title_p">
+              <span class="fbold">{{item.username}}</span>
+              <span class="c777 ft14">2016-07-23</span>
+            </p>
+            <p class="start_p">
+              <van-rate v-model="item.score" readonly size="16px" />
+              <span class="c777 ft14 ml10">{{item.deliveryTime}}分钟送达</span>
+            </p>
+            <p class="ft16">{{item.text}}</p>
+            <p class="tag_p" v-show="item.recommend==''?false:true">
+              <van-icon name="good-job" color="red" size="22px" />
+              <span class="ml10">
+                <van-tag
+                  v-for="arr in item.recommend"
+                  :key="arr"
+                  plain
+                  color="#ffe1e1"
+                  text-color="#ad0000"
+                  size="medium"
+                  class="ml10"
+                >{{arr}}</van-tag>
+              </span>
+            </p>
+          </div>
         </div>
-        <div class="desc_div">
-          <p class="title_p">
-            <span class="fbold">{{item.username}}</span>
-            <span class="c777 ft14">2016-07-23</span>
-          </p>
-          <p class="start_p">
-            <van-rate v-model="item.score" readonly size="16px" />
-            <span class="c777 ft14 ml10">{{item.deliveryTime}}分钟送达</span>
-          </p>
-          <p class="ft16">{{item.text}}</p>
-          <p class="tag_p" v-show="item.recommend==''?false:true">
-            <van-icon name="good-job" color="red" size="22px" />
-            <span class="ml10">
-              <van-tag
-                v-for="arr in item.recommend"
-                :key="arr"
-                plain
-                color="#ffe1e1"
-                text-color="#ad0000"
-                size="medium"
-                class="ml10"
-              >{{arr}}</van-tag>
-            </span>
-          </p>
-        </div>
-      </div>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
 import { shoprats } from "@/api/apis";
+
+import BScroll from "better-scroll";
 
 export default {
   data() {
@@ -88,12 +92,18 @@ export default {
   created() {
     this.render();
   },
+  mounted() {
+    let scorll = new BScroll(document.querySelector(".shopratings"));
+    scorll;
+  },
 };
 </script>
 
 <style lang="less" scoped>
 .shopratings {
   background: #f5f5f5;
+  height: 100%;
+  overflow: hidden;
 }
 .ratheader_div {
   height: 80px;
@@ -127,9 +137,11 @@ export default {
   }
 }
 
-
 .ratings_div {
+  // height: 100%;
+  // box-sizing: border-box;
   padding: 10px;
+  // overflow: hidden;
   .item_div {
     border-bottom: 1px solid #ddd;
     display: flex;

@@ -29,12 +29,17 @@ body,
 #app {
   height: 100%;
 }
-
+.tcenter{
+  text-align: center;
+}
 .fbold {
   font-weight: bold;
 }
 .c777 {
   color: #777;
+}
+.cfff {
+  color: #fff;
 }
 .c000 {
   color: #000;
@@ -51,6 +56,9 @@ body,
 .ft18 {
   font-size: 18px;
 }
+.ft24 {
+  font-size: 24px !important;
+}
 .bgfff {
   background: #fff;
 }
@@ -62,6 +70,9 @@ body,
 }
 .mt20 {
   margin-top: 20px;
+}
+.mtb15{
+  margin:15px 0;
 }
 // #app{
 //   overflow-y: scroll;
