@@ -28,7 +28,10 @@ export default {
     };
   },
   methods: {
-    render() {},
+    render() {
+      // let lohash=
+      // this.active
+    },
   },
   created() {},
   components: {
@@ -43,7 +46,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.nav{
+.nav {
   border-bottom: 1px solid #ddd;
 }
 .main {

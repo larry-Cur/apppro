@@ -4,11 +4,11 @@
       <div>
         <van-sidebar v-model="activeKey" style="width:100%">
           <van-sidebar-item
-            v-for="(item,index) in goodsList"
+            v-for="(item,index) in goodslist_x"
             :key="index"
             :id="'s'+index"
             :title="item.name"
-            badge="5"
+            badge="1"
             style="font-size:13px"
             @click="clicknav(index)"
           />
@@ -18,7 +18,7 @@
     </div>
     <div class="shopbox">
       <div>
-        <div class="item" v-for="(item,index) in goodsList" :key="index" :id="index">
+        <div class="item" v-for="(item,index) in goodslist_x" :key="index" :id="index">
           <h3 class="shop_title">{{item.name}}</h3>
           <van-card
             v-for="(data,index1) in item.foods"
@@ -52,7 +52,7 @@
             </template>
 
             <template #footer>
-              <p style="margin-top:-10px">
+              <p class="setp_p" style="margin-top:-10px" @click.stop>
                 <van-button
                   icon="plus"
                   type="warning"
@@ -62,7 +62,7 @@
                   round
                 />
                 <van-stepper
-                  v-model="num"
+                  v-model="data.valNum"
                   v-show="!data.btnShow"
                   min="0"
                   max="99"
@@ -71,6 +71,7 @@
                   button-size="18px"
                   input-width="18px"
                   disable-input:true
+                  @change="changeNum(data.id,data.valNum)"
                 />
               </p>
             </template>
@@ -81,88 +82,50 @@
     </div>
     <!-- 购物车 -->
     <!-- <van-popup v-model="cartshow" round position="bottom" :style="{ height: '20%' }" /> -->
-    <van-popup v-model="cartshow" round position="bottom">
-      <div class="cart_box" style="min-height:200px">
-        <p class="title">新用户下单立减5元</p>
-        <p class="clearshop ft14">
-          <span>购物车</span>
-          <span class="c777">
-            清空购物
-            <van-icon name="close" />
-          </span>
-        </p>
-        <div class="shop_item">
-          <span class="iteml">{{}}11111111</span>
-          <p>
-            <span class="ft18">￥{{}}123</span>
-            <van-stepper
-              v-model="num"
-              min="0"
-              max="99"
-              integer
-              theme="round"
-              button-size="18px"
-              input-width="18px"
-              disable-input:true
-            />
-          </p>
-        </div>
-      </div>
-    </van-popup>
+    <v-cart></v-cart>
     <!-- 底部组件 -->
-    <div class="shopcart">
-      <div class="cell_div">
-        <div class="left_box"></div>
-        <div class="right_box cfff tcenter">
-          <van-icon name="chat-o" size="20px" />
-          <p class="ft12">联系商家</p>
-        </div>
-      </div>
-      <div class="cart_div" @click="clickcart()">
-        <div class="img_div tcenter">
-          <van-icon name="shopping-cart" size="28px" color="#fff" />
-        </div>
-        <div class="mide_div">
-          <p class="cfff ft16 price_p">￥{{}}</p>
-          <p class="c777 ft12">另外需要配送费{{}}元|支持自取</p>
-        </div>
-      </div>
-      <div class="set_div">
-        <p class="ft14">去结算</p>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
 import { goodlist } from "@/api/apis";
-
+import cart from "./ShopCart";
 import BScroll from "better-scroll";
 
 export default {
+  components: {
+    "v-cart": cart,
+  },
   data() {
     return {
       activeKey: 0,
-      goodsList: [],
-      num: 1,
-      cartshow: false,
+      num: 0,
     };
   },
   methods: {
     //侧边导航
     clicknav(index) {
-      this.activeKey = index;
       this.rtScroll.scrollToElement(document.getElementById(index), 400);
+      this.activeKey = index;
     },
-
+    changeNum(id, num) {
+      // console.log(index, index1,num);
+      // if (num < 1) {
+      //   this.goodslist_x[index].foods[index1].btnShow = true;
+      // }
+      this.$store.commit("changenum", {
+        // index,
+        // index1,
+        id,
+        num,
+      });
+    },
     changBtn(index, index1) {
-      this.goodsList[index].foods[index1].btnShow = false;
+      this.goodslist_x[index].foods[index1].btnShow = false;
+      this.goodslist_x[index].foods[index1].valNum = 1;
     },
     clickgoods(data) {
       console.log(data);
-    },
-    clickcart() {
-      this.cartshow = true;
     },
 
     //渲染
@@ -172,12 +135,26 @@ export default {
         for (let k in arr) {
           for (let j in arr[k].foods) {
             arr[k].foods[j].btnShow = true;
+            // var indexN='num'+k
+            arr[k].foods[j].valNum = 0;
           }
         }
-        this.goodsList = arr;
-        console.log(this.goodsList);
+        // this.goodsList = arr;
+        this.$store.commit("newgoodslist", arr);
       });
     },
+    //
+    // showtag(index) {
+    //   let num = 0;
+    //   let list = this.goodslist_x[index];
+    //   console.log(list);
+    //   for (let childs of list) {
+    //     if (childs.valNum > 0) {
+    //       num++;
+    //     }
+    //   }
+    //   return num;
+    // },
   },
   created() {
     this.render();
@@ -187,7 +164,7 @@ export default {
     // let rightnav = new BScroll(document.querySelector(".shopbox"));
     // leftnav;
     // rightnav;
-
+    //滚动
     this.ltScroll = new BScroll("#shopnav", {
       click: true,
       probeType: 3,
@@ -199,7 +176,8 @@ export default {
 
     this.rtScroll.on("scroll", (obj) => {
       // console.log(obj);
-      let _y = Math.abs(obj.y);
+      //title 高度
+      let _y = Math.abs(obj.y) + 50;
       let navindex = 0;
       for (let obj of this.getdivarr) {
         if (_y >= obj.startY && _y < obj.endY) {
@@ -218,12 +196,16 @@ export default {
     getdivarr() {
       let arr = [];
       let total = 0;
-      for (let i = 0; i < this.goodsList.length; i++) {
+      for (let i = 0; i < this.goodslist_x.length; i++) {
         let curDivHeight = document.getElementById(i).offsetHeight;
         arr.push({ startY: total, endY: total + curDivHeight, index: i });
         total += curDivHeight;
       }
       return arr;
+    },
+    goodslist_x() {
+      console.log(this.$store.state.goodsList);
+      return this.$store.state.goodsList;
     },
   },
 };
@@ -255,94 +237,13 @@ export default {
 }
 .shop_title {
   font-weight: 200;
-  line-height: 30px;
-  font-size: 18px;
+  line-height: 26px;
+  font-size: 16px;
   text-indent: 1rem;
   background: #f4f4f4;
   border-left: 3px solid #ddd;
 }
-.shopcart {
-  width: 94%;
-  height: 50px;
-  position: fixed;
-  margin: auto;
-  left: 0;
-  right: 0;
-  bottom: 6px;
-  display: flex;
-  z-index: 10000;
-  .cell_div {
-    display: flex;
-    .left_box {
-      background: #222;
-      width: 34px;
-      border-radius: 48% 10% 10% 48%;
-      margin-right: -20px;
-    }
-    .right_box {
-      padding: 6px 5px 0 0;
-      line-height: 16px;
-      background: #222;
-      width: 48px;
-    }
-  }
-  .cart_div {
-    margin-left: 2px;
-    flex: 1;
-    background: #222;
-    display: flex;
-    align-items: center;
-    padding: 0 5px;
-    .img_div {
-      width: 40px;
-      height: 40px;
-      margin-top: -24px;
-      line-height: 50px;
-      background: chartreuse;
-      border-radius: 100%;
-    }
-    .mide_div {
-      line-height: 22px;
-      .price_p {
-        text-indent: 5px;
-      }
-    }
-  }
-  .set_div {
-    width: 52px;
-    background: red;
-    border-radius: 0 100% 100% 0;
-    line-height: 50px;
-    padding: 0 5px;
-  }
-}
-
-// 弹出层
-.cart_box {
-  padding: 0 10px;
-  .title {
-    text-align: center;
-    line-height: 36px;
-  }
-  .clearshop {
-    line-height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .shop_item {
-    line-height: 40px;
-    display: flex;
-    align-items: center;
-    .iteml {
-      flex: 1;
-    }
-    p {
-      width: 40%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-  }
+.setp_p {
+  height: 24px;
 }
 </style>

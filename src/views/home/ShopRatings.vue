@@ -3,31 +3,31 @@
     <div>
       <div class="ratheader_div bgfff">
         <div class="left_div">
-          <p class="score_num">{{shopscore}}</p>
+          <p class="score_num">{{shopedDesc.score}}</p>
           <p class="score_title">综合评分</p>
           <p class="score_desc">高于周边商家96%</p>
         </div>
         <div class="right_div">
           <p>
             <span>服务质量</span>
-            <van-rate v-model="shopscore" readonly size="18px" />
-            <span class="ml10">{{shopscore}}</span>
+            <van-rate v-model="shopedDesc.score" readonly size="18px" />
+            <span class="ml10">{{shopedDesc.score}}</span>
           </p>
           <p>
             <span>菜品质量</span>
-            <van-rate v-model="shopscore" readonly size="18px" />
-            <span class="ml10">{{shopscore}}</span>
+            <van-rate v-model="shopedDesc.score" readonly size="18px" />
+            <span class="ml10">{{shopedDesc.score}}</span>
           </p>
           <p>
             <span>送达时间</span>
-            <span style="margin-left:8px ;color:#777">{{}}</span>
+            <span style="margin-left:8px ;color:#777">{{shopedDesc.deliveryTime}}</span>
           </p>
         </div>
       </div>
       <!-- tab -->
       <div class="tab_div mt20">
         <van-tabs type="card">
-          <van-tab title="全部"></van-tab>
+          <van-tab :title="'全部 '+rats.length"></van-tab>
           <van-tab title="满意"></van-tab>
           <van-tab title="不满意"></van-tab>
         </van-tabs>
@@ -78,6 +78,7 @@ export default {
     return {
       shopscore: 0,
       rats: [],
+      shopedDesc: {},
     };
   },
   methods: {
@@ -85,16 +86,26 @@ export default {
     render() {
       shoprats().then((res) => {
         this.rats = res.data.data;
+        console.log(this.rats);
       });
+      this.shopedDesc = this.shoped;
     },
   },
   created() {
     this.render();
   },
+  computed: {
+    shoped() {
+      return this.$store.state.shoped;
+    },
+    // getfemale() {
+    //   return this.$store.getters.getfemale;
+    // },
+  },
   mounted() {
     // let scorll = new BScroll(document.querySelector(".shopratings"));
     // scorll;
-    // this.ratingsScroll = 
+    // this.ratingsScroll =
     let scorll = new BScroll(".shopratings", {
       click: true,
       probeType: 3,

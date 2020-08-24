@@ -36,21 +36,21 @@
     </div>
 
     <div v-show="showdesc" class="desc_mask" @click="closemask">
-      <h3 class="tcenter">乡村基</h3>
+      <h3 class="tcenter">{{shop.name}}</h3>
       <p class="tcenter">
-        <van-rate v-model="shopscore" readonly size="30px" />
+        <van-rate v-model="shop.score" readonly size="30px" />
       </p>
       <p class="fbold mtb15">
         <van-divider :style="{ color: '#fff', borderColor: '#fff' }">优惠信息</van-divider>
       </p>
-      <p class="m_tag_p">
+      <p class="m_tag_p" v-for="sups in shop.supports" :key="sups+'1'">
         <van-tag size="large" color="#f2826a">减</van-tag>
-        <span class="ml10 ft18">{{}}1</span>
+        <span class="ml10 ft16">{{sups}}</span>
       </p>
       <p class="fbold mtb15">
         <van-divider :style="{ color: '#fff', borderColor: '#fff' }">商家公告</van-divider>
       </p>
-      <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+      <p class="shopdesc_p">{{shop.bulletin}}</p>
     </div>
   </div>
 </template>
@@ -67,20 +67,20 @@ export default {
     return {
       shop: {},
       showdesc: false,
-      shopscore: 4,
     };
   },
   methods: {
     showmask() {
       this.showdesc = true;
     },
-    closemask(){
+    closemask() {
       this.showdesc = false;
     },
     render() {
       shopseller().then((res) => {
         this.shop = res.data.data;
         console.log(this.shop);
+        this.$store.commit("changeShoped", this.shop);
       });
     },
   },
@@ -153,10 +153,14 @@ export default {
       font-size: 26px;
       line-height: 80px;
     }
-    .m_tag_p{
+    .m_tag_p {
       line-height: 30px;
+      letter-spacing: 2px;
     }
-   
+    .shopdesc {
+      letter-spacing: 2px;
+      line-height: 28px;
+    }
   }
 }
 </style>
