@@ -125,7 +125,19 @@ export default {
       this.goodslist_x[index].foods[index1].valNum = 1;
     },
     clickgoods(data) {
-      console.log(data);
+      console.log(data.imgUrl);
+      this.$router.push({
+        path: '/goodsdesc',
+        query: {
+         imgUrl:data.imgUrl,
+         name:data.name,
+         sellCount:data.sellCount,
+         rating:data.rating,
+         price:data.price,
+         goodsDesc:data.goodsDesc,
+         id:data.id
+        }
+      })
     },
 
     //渲染

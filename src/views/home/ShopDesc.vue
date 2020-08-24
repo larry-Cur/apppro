@@ -5,11 +5,11 @@
         <!-- 头部 -->
         <div class="shop_header bgfff">
           <div class="score_div">
-            <p class="fbold ft18">乡村基</p>
+            <p class="fbold ft18">{{shopedDesc.name}}</p>
             <p class="score_p">
-              <van-rate v-model="shopscore" readonly size="18px" />
-              <span class="ml10 c777 ft12">({{}})</span>
-              <span class="ml10 c777 ft12">月售{{}}单</span>
+              <van-rate v-model="shopedDesc.score" readonly size="18px" />
+              <span class="ml10 c777 ft12">({{shopedDesc.deliveryPrice}})</span>
+              <span class="ml10 c777 ft12">月售{{shopedDesc.sellCount}}单</span>
             </p>
           </div>
           <div class="store_div">
@@ -27,19 +27,19 @@
           <div class="c777">
             <p>起送价</p>
             <p class="ft14">
-              <span class="fbold c000">{{}}</span>元
+              <span class="fbold c000">{{shopedDesc.minPrice}}</span>元
             </p>
           </div>
           <div class="c777">
             <p>商家配送</p>
             <p class="ft14">
-              <span class="fbold c000">{{}}</span>元
+              <span class="fbold c000">{{shopedDesc.deliveryPrice}}</span>元
             </p>
           </div>
           <div class="c777">
             <p>平均配送时间</p>
             <p class="ft14">
-              <span class="fbold c000">{{}}</span>分钟
+              <span class="fbold c000">{{shopedDesc.deliveryTime}}</span>分钟
             </p>
           </div>
         </div>
@@ -47,16 +47,12 @@
       <div class="shop_txt mt20 bgfff">
         <div class="notice_div">
           <h5 class>活动与公告</h5>
-          <p class="mt20 ft18">啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+          <p class="mt20 ft16">{{shopedDesc.bulletin}}</p>
         </div>
         <div class="tag_div mt10">
-          <p>
+          <p v-for="tags in shopedDesc.supports" :key="tags">
             <van-tag color="#f2826a" size="medium">减</van-tag>
-            <span class="ml10">{{}}哈哈哈哈哈</span>
-          </p>
-          <p>
-            <van-tag color="#f2826a" size="medium">减</van-tag>
-            <span class="ml10">{{}}哈哈哈哈哈</span>
+            <span class="ml10">{{tags}}</span>
           </p>
         </div>
       </div>
@@ -71,11 +67,22 @@ export default {
     return {
       shopscore: 4.5,
       store: false,
+      shopedDesc:{}
     };
   },
   methods: {
-    // Clickstore() {
-    // },
+    render() {
+      this.shopedDesc = this.shoped;
+      console.log(this.shopedDesc);
+    },
+  },
+  computed: {
+    shoped() {
+      return this.$store.state.shoped;
+    },
+  },
+  created() {
+    this.render()
   },
   mounted() {
     // let scorll = new BScroll(document.querySelector(".shopdesc"));

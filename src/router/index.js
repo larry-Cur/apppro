@@ -19,6 +19,11 @@ export default new VueRouter({
       name: '/shopdesc',
       component: () => import('../views/home/ShopDesc'),
 
-    },
+    },{ // 商品详情
+      path: '/goodsdesc',
+      name: '/goodsdesc',
+      component: () => import('../views/home/GoodsDesc'),
+
+    }
   ]
 })
